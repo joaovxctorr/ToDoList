@@ -8,7 +8,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { signOut, User } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
@@ -32,12 +32,10 @@ export default function Tasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState("");
   const [category, setCategory] = useState("Trabalho");
-  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
       if (!currentUser) {
         router.push("/login");
       }
