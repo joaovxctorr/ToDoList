@@ -50,7 +50,7 @@ export default function Login() {
         toast.success("Login realizado com sucesso!");
         router.push("/tasks");
       }
-    } catch (err) {
+    } catch {
       toast.error("Falha ao fazer login. Verifique suas credenciais.");
     }
   };
@@ -63,7 +63,7 @@ export default function Login() {
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success("Email de redefinição de senha enviado!");
-    } catch (err) {
+    } catch {
       toast.error("Erro ao enviar email. Verifique o email digitado.");
     }
   };

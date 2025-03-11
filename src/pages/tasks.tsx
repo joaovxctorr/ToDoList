@@ -23,8 +23,8 @@ interface Task {
 }
 
 const categoryColors: { [key: string]: string } = {
-  Trabalho: "bg-blue-200",
-  Estudo: "bg-yellow-200",
+  Trabalho: "bg-red-200",
+  Estudo: "bg-blue-200",
   Pessoal: "bg-green-200",
 };
 
@@ -67,8 +67,8 @@ export default function Tasks() {
       });
       toast.success("Tarefa adicionada!");
       setNewTask("");
-    } catch {
-      toast.error("Erro ao adicionar a tarefa.");
+    } catch (err) {
+      toast.error(`Erro ao adicionar a tarefa: ${err}`);
     }
   };
 
@@ -76,8 +76,8 @@ export default function Tasks() {
     try {
       await updateDoc(doc(db, "tasks", id), { completed: !completed });
       toast.info(completed ? "Tarefa marcada como pendente." : "Tarefa concluída!");
-    } catch {
-      toast.error("Erro ao atualizar a tarefa.");
+    } catch (err) {
+      toast.error(`Erro ao atualizar a tarefa: ${err}`);
     }
   };
 
@@ -85,8 +85,8 @@ export default function Tasks() {
     try {
       await deleteDoc(doc(db, "tasks", id));
       toast.warn("Tarefa removida!");
-    } catch {
-      toast.error("Erro ao remover a tarefa.");
+    } catch (err) {
+      toast.error(`Erro ao remover a tarefa: ${err}`);
     }
   };
 

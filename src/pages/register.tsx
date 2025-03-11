@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../firebaseConfig"; 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FirebaseError } from "firebase/app"; // Importação correta do FirebaseError
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -34,15 +35,19 @@ export default function Register() {
       await createUserWithEmailAndPassword(auth, email, password);
       toast.success("Conta criada com sucesso!");
       setTimeout(() => router.push("/tasks"), 2000);
-    } catch (err: any) {
-      if (err.code === "auth/weak-password") {
-        toast.error("A senha precisa ter pelo menos 6 caracteres.");
-      } else if (err.code === "auth/email-already-in-use") {
-        toast.error("Este email já está em uso.");
-      } else if (err.code === "auth/invalid-email") {
-        toast.error("Email inválido.");
+    } catch (err: unknown) { // Tipando o erro como 'unknown'
+      if (err instanceof FirebaseError) { // Verificando se o erro é uma instância de FirebaseError
+        if (err.code === "auth/weak-password") {
+          toast.error("A senha precisa ter pelo menos 6 caracteres.");
+        } else if (err.code === "auth/email-already-in-use") {
+          toast.error("Este email já está em uso.");
+        } else if (err.code === "auth/invalid-email") {
+          toast.error("Email inválido.");
+        } else {
+          toast.error("Erro ao criar conta. Tente novamente.");
+        }
       } else {
-        toast.error("Erro ao criar conta. Tente novamente.");
+        toast.error("Erro desconhecido. Tente novamente.");
       }
     }
   };
@@ -89,21 +94,14 @@ export default function Register() {
         <div className="text-center">
           <button
             onClick={() => router.push("/login")}
-            className="text-blue-500 hover:underline text-lg"
+            className="text-blue-600 hover:underline"
           >
             Já tem uma conta? Faça login
           </button>
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="colored"
-      />
+
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable theme="colored" />
     </div>
   );
 }
