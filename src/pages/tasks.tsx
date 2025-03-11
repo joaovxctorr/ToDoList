@@ -29,10 +29,10 @@ const categoryColors: { [key: string]: string } = {
 };
 
 export default function Tasks() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState("");
-  const [category, setCategory] = useState("Trabalho");
-  const router = useRouter();
+  const [tasks, setTasks] = useState<Task[]>([]); 
+  const [newTask, setNewTask] = useState(""); 
+  const [category, setCategory] = useState("Trabalho"); 
+  const router = useRouter(); 
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -130,17 +130,13 @@ export default function Tasks() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              className={`flex items-center justify-between p-3 border-b rounded-md cursor-pointer transition-all ${
-                categoryColors[task.category] || "bg-gray-200"
-              } ${task.completed ? "line-through" : ""}`}
+              className={`flex items-center justify-between p-3 border-b rounded-md cursor-pointer transition-all ${categoryColors[task.category] || "bg-gray-200"} ${task.completed ? "line-through" : ""}`}
             >
               <span>{task.text}</span>
               <div className="flex gap-2">
                 <button
                   onClick={() => toggleComplete(task.id, task.completed)}
-                  className={`px-4 py-1 rounded-md transition duration-200 ${
-                    task.completed ? "bg-blue-500 text-white" : "bg-yellow-500 text-white"
-                  }`}
+                  className={`px-4 py-1 rounded-md transition duration-200 ${task.completed ? "bg-blue-500 text-white" : "bg-yellow-500 text-white"}`}
                 >
                   {task.completed ? "Concluído" : "Concluir"}
                 </button>
